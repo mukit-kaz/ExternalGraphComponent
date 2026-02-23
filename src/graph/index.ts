@@ -1,4 +1,6 @@
 export { StandaloneGraphViewer, type StandaloneGraphViewerProps } from "./StandaloneGraphViewer";
+export { ControlPanel, InfoPanel } from "./components";
+export { GraphLoadingExample } from "./GraphLoadingExample";
 export { getDefaultLayoutControll, dummyGraphData } from "./data";
 
 export type {

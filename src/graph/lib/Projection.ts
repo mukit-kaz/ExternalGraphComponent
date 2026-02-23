@@ -52,7 +52,6 @@ function mapExtract<T = unknown>(
   binding: (dataItem: unknown) => unknown
 ): Iterable<unknown> {
   const result: unknown[] = [];
-  // @ts-expect-error - iterating over items in iterable
   for (const item of iterable) {
     result.push(binding(item));
   }

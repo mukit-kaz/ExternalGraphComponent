@@ -33,10 +33,7 @@ export function StandaloneGraphViewer({
       return;
     }
 
-    // Initialize the GraphComponent
     const gc = new GraphComponent();
-
-    // Configure input mode for view-only interaction
     gc.inputMode = new GraphEditorInputMode({
       defaultCursor: "move",
       allowEditLabel: false,
@@ -51,7 +48,6 @@ export function StandaloneGraphViewer({
       allowUndoOperations: false,
     });
 
-    // Style and append the graph component first
     gc.div.style.width = "100%";
     gc.div.style.height = "100%";
     gc.div.style.cursor = "move";
@@ -59,7 +55,6 @@ export function StandaloneGraphViewer({
 
     graphComponentRef.current = gc;
 
-    // Initialize the graph with data
     async function initializeGraph() {
       try {
         const controll = layoutControll ?? getDefaultLayoutControll();
@@ -74,11 +69,12 @@ export function StandaloneGraphViewer({
 
     initializeGraph();
 
-    // Cleanup on unmount
     return () => {
-      gc.cleanUp();
-      graphComponentRef.current = null;
       container.innerHTML = "";
+      graphComponentRef.current = null;
+      setTimeout(() => {
+        gc.cleanUp();
+      }, 0);
     };
   }, [data, layout, orientation, layoutControll]);
 

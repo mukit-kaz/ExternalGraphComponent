@@ -23,10 +23,6 @@ export function ControlPanel({
       alignItems: 'center',
       flexWrap: 'wrap'
     }}>
-      <h1 style={{ margin: 0, fontSize: '18px', fontWeight: 600, color: '#212529' }}>
-        Corporate Structure Graph
-      </h1>
-      
       <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
         <label style={{ fontSize: '14px', color: '#495057' }}>Layout:</label>
         <select 

@@ -6,8 +6,8 @@ import {
   GraphOrientation,
   getDefaultLayoutControll,
   type NodeWithEdge,
-} from './standalone'
-import { ControlPanel, InfoPanel } from './standalone/components'
+} from './graph'
+import { ControlPanel, InfoPanel } from './graph/components'
 
 function App() {
   const [graphData] = useState<NodeWithEdge>(dummyGraphData)
