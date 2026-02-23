@@ -1,9 +1,8 @@
-import { ChangeEvent, memo, useEffect, useState } from "react";
+import { type ChangeEvent, memo, useEffect, useState } from "react";
 import toast from "react-hot-toast";
 import { HiOutlinePlus } from "react-icons/hi2";
 import { shallowEqual, useDispatch } from "react-redux";
-import { FilterApi } from "../../apis/FilterApi";
-import {
+import type {
   GetFilterLogic,
   GetFilterLogicForText,
   GetFilterType,

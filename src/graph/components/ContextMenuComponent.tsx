@@ -34,7 +34,7 @@ import {
   INode,
   PopulateItemContextMenuEventArgs,
 } from "@yfiles/yfiles";
-import { ReactElement, useCallback, useLayoutEffect, useState } from "react";
+import { type ReactElement, useCallback, useLayoutEffect, useState } from "react";
 import { Message } from "rsuite";
 import { EntityControlUtils } from "../../utils/entity-utils/entity-control-utils";
 import { detectSafariVersion, detectiOSVersion } from "../lib/Workarounds";

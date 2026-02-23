@@ -1,7 +1,7 @@
 import { GetContrastColor } from "../../utils/extention/stringExtention";
 import { ShapeCircle, ShapeHexagon, ShapePentagon, ShapeRectangle, ShapeRhombus, ShapeTriangle } from "../../utils/graph-utils/shape-utils";
 import { Shape } from "../type/constant";
-import { LayoutControll, ShapeColor, ShapeEdgeColor, TableBodyColor, TypeShape, TypeShapeColor, TypeTableColor } from "../type/type";
+import type { LayoutControll, ShapeColor, ShapeEdgeColor, TableBodyColor, TypeShape, TypeShapeColor, TypeTableColor } from "../type/type";
 
 export function GenerateShapeLegend(contorl: LayoutControll) {
   let legend = '';
@@ -15,21 +15,25 @@ export function GenerateShapeLegend(contorl: LayoutControll) {
 function ShapeColorLegend(contorl: LayoutControll) {
 
   let typeColors = `<div style="display:flex; align-items: center;flex-wrap: wrap;">`;
-  typeColors += contorl.shapeColors.map((type) => {
+  typeColors += contorl.shapeColors?.map((type) => {
     return ShapeColorByType(type);
-  });
+  }).join('') || '';
   
-  typeColors += ShapeColorHighlight(contorl.shapeColorHighlight);
+  if (contorl.shapeColorHighlight) {
+    typeColors += ShapeColorHighlight(contorl.shapeColorHighlight);
+  }
   typeColors += '</div>';
 
   let edgeColors = '<div style="display:flex; align-items: center;flex-wrap: wrap;">';
-  edgeColors += EdgeColor(contorl.shapeEdgeColor);
+  if (contorl.shapeEdgeColor) {
+    edgeColors += EdgeColor(contorl.shapeEdgeColor);
+  }
   edgeColors += '</div>';
 
   let shape = '<div style="display:flex; align-items: center;flex-wrap: wrap;">';
-  shape += contorl.typeShapes.map((type) => {
+  shape += contorl.typeShapes?.map((type) => {
     return ShapeByType(type);
-  });
+  }).join('') || '';
   shape += '</div>';
 
   let legend = `<div>`;
@@ -94,6 +98,7 @@ function ShapeColorLegend(contorl: LayoutControll) {
 // }
 
 function ShapeColorByType(type: TypeShapeColor) {
+  if (!type.value) return '';
   return (`<div style="
       background-color: ${type.value.shapeBgColor};
       border: 2px solid ${type.value.shapeBorderColor};
@@ -158,7 +163,7 @@ function EdgeColor(shapeEdgeColor: ShapeEdgeColor) {
 export function ShapeByType(
   type: TypeShape
 ) {
-  const label = type.key==='default'?'Default':type.key;
+  const label = type.key==='default'?'Default':(type.key || '');
 
   switch (type.shape) {
     case Shape.Rectangle:
@@ -201,17 +206,21 @@ export function GenerateTableLegend(contorl: LayoutControll) {
 function TableColorLegend(contorl: LayoutControll) {
 
   let typeColors = `<div style="display:flex; align-items: center;flex-wrap: wrap;">`;
-  typeColors += contorl.tableColors.map((type) => {
+  typeColors += contorl.tableColors?.map((type) => {
     return TableColorByType(type);
-  });
+  }).join('') || '';
   typeColors += '</div>';
   
   let tableColors = '<div style="display:flex; align-items: center;flex-wrap: wrap;">';
-  tableColors += TableBodyColorByType(contorl.tableBodyColor,contorl.tableBodyHighlightColor);
+  if (contorl.tableBodyColor && contorl.tableBodyHighlightColor) {
+    tableColors += TableBodyColorByType(contorl.tableBodyColor,contorl.tableBodyHighlightColor);
+  }
   tableColors += '</div>';
 
   let edgeColors = '<div style="display:flex; align-items: center;flex-wrap: wrap;">';
-  edgeColors += EdgeColor(contorl.shapeEdgeColor);
+  if (contorl.shapeEdgeColor) {
+    edgeColors += EdgeColor(contorl.shapeEdgeColor);
+  }
   edgeColors += '</div>';
 
   let legend = `<div>`;
@@ -240,6 +249,7 @@ function TableColorLegend(contorl: LayoutControll) {
 }
 
 function TableColorByType(type: TypeTableColor) {
+  if (!type.value) return '';
   return (`<div style="
       background-color: ${type.value.tableBorderColor};
       color: ${GetContrastColor(type.value.tableBorderColor)};

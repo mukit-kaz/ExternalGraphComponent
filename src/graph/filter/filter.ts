@@ -1,6 +1,6 @@
-import { FilterType } from "./graphFilterComponent";
+import type { FilterType } from "./graphFilterComponent";
 import { GraphFilterForText, GraphFilterNames, GraphFilterType } from "../../enums/graph-filter-type-enums";
-import { EdgeType, NodeType } from "../type/type";
+import type { EdgeType, NodeType } from "../type/type";
 
 export function FilterNodeAndEdge(
   filters: FilterType[],
@@ -30,7 +30,7 @@ function applyFilters( node: NodeType, edges: EdgeType[], filters: FilterType[])
 }
 
 function applyFilter(node: NodeType, filter: FilterType): boolean {
-  const nodeValue = node[filter.type]?.toLowerCase();
+  const nodeValue = typeof node[filter.type as keyof NodeType] === 'string' ? (node[filter.type as keyof NodeType] as string).toLowerCase() : '';
   const filterValue = filter.value?.toLowerCase();
 
   if(!nodeValue || !filterValue)

@@ -1,4 +1,4 @@
-import { FilterType, dropdownType } from "./graphFilterComponent";
+import type { FilterType, dropdownType } from "./graphFilterComponent";
 import {
   AutoComplete,
   InputGroup,
@@ -10,7 +10,7 @@ import {
 import { ValidPercentage } from "../../utils/extention/stringExtention";
 import { GraphFilterType } from "../../enums/graph-filter-type-enums";
 import TrashIcon from "../../assets/icons/TrashIcon";
-import { useEffect, useMemo, useState } from "react";
+import { useMemo, useState } from "react";
 import { createIconMapForFilters } from "../../utils/graph-utils/GraphUiUtils";
 import { RiSearch2Line } from "react-icons/ri";
 import DeleteMessageModal from "../../modal/message-modal/DeleteMessageModal";
@@ -43,26 +43,28 @@ export default function FilterUiComponent(props: filterUiProps) {
       props.data.type === GraphFilterType.OwnershipPercentage
         ? props.filterSelectorData
         : props.filterSelectorDataForText,
-    [props.data.type]
+    [props.data.type, props.filterSelectorData, props.filterSelectorDataForText]
   );
-  const [selectedFilterOption, setSelectedFilterOption] =
-    useState<dropdownType>({ label: "", value: "" });
+  
   const graphFilterIconMap = useMemo(() => {
     return createIconMapForFilters(filterOptions);
   }, [filterOptions]);
 
-  const handleFilterSelect = (selectedFilter: dropdownType) => {
-    setSelectedFilterOption(selectedFilter);
+  // Derive selected filter option from props.data.logic or default to first option
+  const selectedFilterOption = useMemo(() => {
+    if (props.data.logic && filterOptions.length > 0) {
+      const found = filterOptions.find(option => option.value === props.data.logic);
+      return found || filterOptions[0];
+    }
+    return filterOptions.length > 0 ? filterOptions[0] : { label: "", value: "" };
+  }, [filterOptions, props.data.logic]);
 
+  const handleFilterSelect = (selectedFilter: dropdownType) => {
     props.onChageFilterData({
       ...props.data,
       logic: selectedFilter.value ?? "",
     });
   };
-
-  useEffect(() => {
-    handleFilterSelect(filterOptions[0]);
-  }, [props.data.type]);
 
   return (
     <div className="bg-reg-white rounded border flex flex-col relative">
@@ -83,7 +85,7 @@ export default function FilterUiComponent(props: filterUiProps) {
       {props.filterlistLength > 1 && (
         <TrashIcon
           className="red-transition w-5 h-5"
-          onClick={() => props.RemoveFilter(props.data.id)}
+          onClick={() => setShowDeleteMessage(true)}
         />
         )}
       </div>
