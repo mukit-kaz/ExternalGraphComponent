@@ -1,0 +1,62 @@
+#graph {
+  @apply antialiased text-center text-gray-800 absolute inset-0;
+}
+
+.header {
+  @apply h-[64px] top-1 border bg-reg-gray-100 border-reg-gray-300 bg-opacity-55;
+  //   height: 48px;
+  //   background-color: #5a5a5a;
+  display: flex;
+  align-items: center;
+  padding: 0 16px;
+
+}
+
+
+.main {
+  @apply absolute top-[100px] left-[300px] right-[300px] bottom-0;
+}
+
+.title {
+  @apply flex-none text-reg-gray-900 mr-8 text-lg leading-6 truncate;
+}
+
+.overview-container {
+  @apply absolute left-[16%] bottom-[1%] z-[1];
+}
+
+@screen 2xl {
+  .overview-container {
+    @apply left-[2%];
+  }
+}
+
+@screen xl {
+  .overview-container {
+    @apply left-[2%];
+  }
+}
+
+@screen lg {
+  .overview-container {
+    @apply left-[3%];
+  }
+  .main {
+    @apply top-[110px] left-[230px] right-[230px] bottom-0;
+  }
+}
+
+@screen md {
+  .overview-container {
+    @apply left-[4%] bottom-[8%];
+  }
+}
+
+@screen sm {
+  .overview-container {
+    @apply left-[5%] bottom-[3%];
+  }
+  .main {
+    @apply top-[75px] left-[150px] right-[150px] bottom-0;
+  }
+}
