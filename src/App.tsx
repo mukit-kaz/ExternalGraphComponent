@@ -1,17 +1,47 @@
-import './App.css'
-import ExternalOrgchartComponent from './components/ExternalOrgchartComponent'
-import { dummyOrgchartConfig } from './data/dummyOrgchartData'
-import type { ExternalNodeType, LayoutType } from './types/ExternalOrgchartTypes'
+import { useState } from 'react'
+import { 
+  StandaloneGraphViewer, 
+  dummyGraphData,
+  Graph_Layout,
+  GraphOrientation,
+  getDefaultLayoutControll,
+  type NodeWithEdge,
+} from './standalone'
+import { ControlPanel, InfoPanel } from './standalone/components'
 
 function App() {
+  const [graphData] = useState<NodeWithEdge>(dummyGraphData)
+  const [layout, setLayout] = useState(Graph_Layout.Hierarchic)
+  const [orientation, setOrientation] = useState(GraphOrientation.Top_to_Bottom)
+  const customConfig = getDefaultLayoutControll()
+
   return (
-    <div style={{ width: '100%', height: '100vh' }}>
-      <ExternalOrgchartComponent
-        config={dummyOrgchartConfig}
-        callbacks={{
-          onNodeClick: (node: ExternalNodeType) => console.log('Node clicked:', node),
-          onLayoutChange: (layout: LayoutType) => console.log('Layout changed:', layout),
-        }}
+    <div style={{ 
+      width: '100vw', 
+      height: '100vh', 
+      display: 'flex', 
+      flexDirection: 'column',
+      fontFamily: 'system-ui, -apple-system, sans-serif',
+      overflow: 'hidden'
+    }}>
+      <ControlPanel 
+        layout={layout}
+        orientation={orientation}
+        onLayoutChange={setLayout}
+        onOrientationChange={setOrientation}
+      />
+      <div style={{ flex: 1, overflow: 'hidden' }}>
+        <StandaloneGraphViewer
+          data={graphData}
+          layout={layout}
+          orientation={orientation}
+          layoutControll={customConfig}
+        />
+      </div>
+
+      <InfoPanel 
+        nodeCount={graphData.nodes.length}
+        edgeCount={graphData.edges.length}
       />
     </div>
   )
