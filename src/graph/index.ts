@@ -1,7 +1,7 @@
 export { StandaloneGraphViewer, type StandaloneGraphViewerProps } from "./StandaloneGraphViewer";
 export { ControlPanel, InfoPanel } from "./components";
 export { GraphLoadingExample } from "./GraphLoadingExample";
-export { getDefaultLayoutControll, dummyGraphData } from "./data";
+export { getDefaultLayoutControll } from "./data";
 
 export type {
   NodeType,
@@ -21,3 +21,13 @@ export {
 } from "./types/constant";
 
 export { BusinessType } from "./constants/entityConstants";
+export {
+  mapApiResponseToGraphData,
+  validateGraphData,
+  findRootEntity,
+  filterGraphData,
+  processCompanyChartApiResponse,
+  type ApiEntityData,
+  type ApiOwnerData,
+  type CompanyChartApiResponse,
+} from "./lib/apiGraphDataMapper";

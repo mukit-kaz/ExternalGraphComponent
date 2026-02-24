@@ -11,7 +11,6 @@ This is a **complete, production-ready** React graph visualization module powere
 - **UI Components** - `ControlPanel` and `InfoPanel` for interactive controls
 - **Example Component** - `GraphLoadingExample.tsx` with complete implementation
 - **TypeScript Support** - Full type definitions for all APIs
-- **Sample Data** - `dummyGraphData` for testing and reference
 - **Layout Algorithms** - 5 different layouts (Hierarchic, Tree, Circular, Orthogonal, Organic)
 - **Web Workers** - Non-blocking layout calculations for performance
 
@@ -105,12 +104,22 @@ npm list @yfiles/yfiles
 The simplest way to get started:
 
 ```tsx
-import { StandaloneGraphViewer, dummyGraphData } from './graph';
+import { StandaloneGraphViewer } from './graph';
 
 function App() {
+  const graphData = {
+    nodes: [
+      { id: "1", name: "Parent" },
+      { id: "2", name: "Child" }
+    ],
+    edges: [
+      { fromNode: "1", toNode: "2", percentage: 100 }
+    ]
+  };
+
   return (
     <div style={{ width: '100%', height: '600px' }}>
-      <StandaloneGraphViewer data={dummyGraphData} />
+      <StandaloneGraphViewer data={graphData} />
     </div>
   );
 }
@@ -230,13 +239,20 @@ import {
   ControlPanel, 
   InfoPanel,
   Graph_Layout, 
-  GraphOrientation,
-  BusinessType,
-  dummyGraphData
+  GraphOrientation
 } from './graph';
 import { useState } from 'react';
 
 function InteractiveGraph() {
+  const graphData = {
+    nodes: [
+      { id: "1", name: "Parent" },
+      { id: "2", name: "Child" }
+    ],
+    edges: [
+      { fromNode: "1", toNode: "2", percentage: 100 }
+    ]
+  };
   const [layout, setLayout] = useState(Graph_Layout.Hierarchic);
   const [orientation, setOrientation] = useState(GraphOrientation.Top_to_Bottom);
 
@@ -258,7 +274,7 @@ function InteractiveGraph() {
       {/* Graph Viewer - Updates when layout/orientation changes */}
       <div style={{ flex: 1 }}>
         <StandaloneGraphViewer
-          data={dummyGraphData}
+          data={graphData}
           layout={layout}
           orientation={orientation}
         />
@@ -266,8 +282,8 @@ function InteractiveGraph() {
       
       {/* Info Panel - Shows node/edge statistics */}
       <InfoPanel
-        nodeCount={dummyGraphData.nodes.length}
-        edgeCount={dummyGraphData.edges.length}
+        nodeCount={graphData.nodes.length}
+        edgeCount={graphData.edges.length}
       />
     </div>
   );
@@ -519,7 +535,6 @@ graph/
 │
 ├── data/
 │   ├── defaultLayoutControll.ts        # Default layout configuration
-│   ├── dummyGraphData.ts               # Sample data for testing
 │   └── index.ts                        # Data exports
 │
 ├── lib/
@@ -578,7 +593,6 @@ graph/
 #### Configuration (data/ & constants/)
 - **`defaultLayoutControll.ts`** - Default settings for each layout algorithm.
 - **`entityConstants.ts`** - Predefined business entity types, colors, and shapes.
-- **`dummyGraphData.ts`** - Sample data for testing and reference.
 
 #### UI Components (components/)
 - **`ControlPanel.tsx`** - Dropdown controls for changing layout and orientation.
@@ -696,8 +710,7 @@ export {
 // UTILITIES & DATA
 // ═══════════════════════════════════════════════
 export { 
-  getDefaultLayoutControll,  // Returns default layout settings
-  dummyGraphData             // Sample graph data for testing
+  getDefaultLayoutControll   // Returns default layout settings
 }
 ```
 
@@ -735,7 +748,7 @@ export {
 - **This Guide** - Complete setup and usage instructions
 - **Type Definitions** - `src/graph/types/type.ts` - All TypeScript interfaces
 - **Constants** - `src/graph/constants/entityConstants.ts` - BusinessType values
-- **Sample Data** - `src/graph/data/dummyGraphData.ts` - Example graph structure
+- **Data Mapping** - `src/graph/lib/apiGraphDataMapper.ts` - API response to graph data
 - **Default Layouts** - `src/graph/data/defaultLayoutControll.ts` - Layout configurations
 
 ### 💡 Example Files
@@ -743,14 +756,14 @@ export {
 | File | Purpose | What It Shows |
 |------|---------|---------------|
 | `GraphLoadingExample.tsx` | Production-ready example | Loading states, error handling, ControlPanel/InfoPanel integration |
-| `dummyGraphData.ts` | Sample data structure | Correct NodeType/EdgeType format with BusinessType constants |
+| `apiGraphDataMapper.ts` | API data mapping | Converts API response to NodeType/EdgeType format |
 | `StandaloneGraphViewer.tsx` | Component source | Implementation details for customization |
 
 ### 🔗 Quick Reference Links
 
 - **Import Statement:** `import { StandaloneGraphViewer, ControlPanel, InfoPanel, BusinessType } from './graph'`
 - **Type Import:** `import type { NodeType, EdgeType, NodeWithEdge, LayoutControll } from './graph'`
-- **Sample Data:** `import { dummyGraphData, getDefaultLayoutControll } from './graph'`
+- **Layout Defaults:** `import { getDefaultLayoutControll } from './graph'`
 
 ### ⚡ Key Files to Check When Troubleshooting
 
@@ -766,7 +779,7 @@ export {
 
 ### Immediate Actions
 1. **Complete Installation** - Follow the Quick Start Checklist above
-2. **Test with Sample Data** - Use `dummyGraphData` to verify setup
+2. **Test with API Data** - Use your API response mapped with `processCompanyChartApiResponse`
 3. **Review Example** - Study `GraphLoadingExample.tsx` for patterns
 4. **Read Type Definitions** - Understand NodeType and EdgeType structures
 
@@ -787,7 +800,7 @@ export {
 
 Everything is set up and ready to use. Start by:
 
-1. **Testing the installation** - Import and render with `dummyGraphData`
+1. **Testing the installation** - Fetch API data and render with `StandaloneGraphViewer`
 2. **Reviewing examples** - Check `GraphLoadingExample.tsx`
 3. **Building your integration** - Transform your data and connect
 
